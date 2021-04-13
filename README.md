@@ -26,3 +26,9 @@ server by running `yarn dev` and navigate to http://localhost:3000.
 ## Production
 
 After running `yarn build`, the files you need for production will be on the `dist` folder. To test code on your `dist` folder, run `yarn serve` and navigate to http://localhost:5000
+
+### Contact
+| Name                          | e-mail                                |
+| ----------------------------- |:--------------------------------------:| 
+| Gabriela Marangoni Radigonda  | gabrielaradigonda@alunos.utfpr.edu.br  |
+| Matheus Batistela   | matheusbatistela@alunos.utfpr.edu.br       |  
