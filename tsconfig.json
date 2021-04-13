@@ -5,7 +5,7 @@
     "types": ["vite/client"],
     "allowJs": false,
     "skipLibCheck": false,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,5 +15,11 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "typeRoots": [
+    "./node_modules/phaser/types"
+  ],
+  "types": [
+      "Phaser"
+  ]
 }
