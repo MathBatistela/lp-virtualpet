@@ -30,6 +30,7 @@ class Kitchen extends Phaser.Scene {
     this.load.image("background", "assets/backgrounds/kitchen.png");
     // this.load.atlas('stand-player','/assets/Level1Stand1-sheet.png', 'assets/Level1Stand1.json' );
     this.playerLoads(this.player);
+    
   }
 
   create() {
