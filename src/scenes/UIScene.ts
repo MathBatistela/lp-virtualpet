@@ -10,7 +10,13 @@ export default class UIScene extends Phaser.Scene {
   }
 
   preload() {
+    //fundos
     this.load.image("kitchen", "assets/backgrounds/kitchen.png");
+    this.load.image("bathroom", "assets/backgrounds/bathroom.png");
+    this.load.image("bedroom", "assets/backgrounds/bedroom.png");
+    this.load.image("paisagem", "assets/backgrounds/paisagem.png");
+
+    //icons
     this.load.image('drink', 'assets/icons/IconDrink.png');
     this.load.image('food', 'assets/icons/IconEat.png');
     this.load.image('sleep', 'assets/icons/IconLights.png');
@@ -59,6 +65,9 @@ export default class UIScene extends Phaser.Scene {
     const { width, height } = this.scale;
 
     this.fundos['fundokitchen'] = this.add.sprite(width/2, height/2.7, 'kitchen');
+    this.fundos['fundoBathroom'] = this.add.sprite(width/2, height/2, 'bathroom');
+    this.fundos['fundoBedroom'] = this.add.sprite(width/2, height/2.7, 'bedroom');
+    this.fundos['fundoPaisagem'] = this.add.sprite(width/2, height/2.7, 'paisagem').setScale(0.42);
     // acrescemtar todos os fundos aqui
     this.showFundo('none');
     
@@ -72,11 +81,11 @@ export default class UIScene extends Phaser.Scene {
     });   
 
     var icon3 = this.addButton(this,icon2.x, icon2.y+120, 'sleep', 3, function(ctx:any){
-
+      ctx.showFundo('fundoBedroom');
     });
     
     var icon4 = this.addButton(this, icon3.x, icon3.y+120, 'affection', 3, function(ctx:any){
-
+      ctx.showFundo('fundoPaisagem');
     });
 
     this.addButton(this, icon4.x, icon4.y+120, 'info', 3, function(ctx:any){
@@ -100,7 +109,7 @@ export default class UIScene extends Phaser.Scene {
     });    
 
     this.addButton(this, icon8.x-15, icon8.y+140, 'back', 1.5, function(ctx:any){
-
+      ctx.showFundo('fundokitchen');
     });   
       
       var text = this.add.text(120, 16, 'Felicidade:', { fontSize: '20px', color: '#000' } );// colocar essa fonte Dogica Pixel
