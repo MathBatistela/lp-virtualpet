@@ -63,16 +63,22 @@ export default class UIScene extends Phaser.Scene {
       this.fundos[key].setVisible(false);
     }
     if(nome != 'none') this.fundos[nome].setVisible(true);
+    this.showIcons('none', true);
   }
 
-  showIcons(nome:string){
-    var aux;
-    for (const [key] of Object.entries(this.icons)) {
-      this.icons[key].setVisible(false);
+  showIcons(nome:string, state:boolean){
+    if(nome == 'none' && state == true) {
+      for (const [key] of Object.entries(this.icons)) {
+        this.icons[key].setVisible(false);       
+      }      
+    } else if(nome == 'none' && state == false) {
+      for (const [key] of Object.entries(this.icons)) {
+        this.icons[key].setVisible(true);       
+      }
+    } else {
+      this.icons[nome].setVisible(state);
     }
-    
-    if(nome != 'none') 
-      this.icons[nome].setVisible(true);
+ 
   }
 
   create() {
@@ -130,29 +136,35 @@ export default class UIScene extends Phaser.Scene {
     
     });
 
-    this.showIcons('none');
+    this.showIcons('none', true);
     
 
 
    var icon1 = this.addButton(this, 60, 50, 'drink', 3, function(ctx:any){
       ctx.showFundo('fundokitchen');
-      ctx.showIcons('Fdrink');
-      ctx.showIcons('Fdrink2');
+      ctx.showIcons('Fdrink', true);
+      ctx.showIcons('Fdrink2', true);     
+     
     });
 
     var icon2 = this.addButton(this,icon1.x, icon1.y+100, 'food',3, function(ctx:any){
       ctx.showFundo('fundokitchen');
-      ctx.showIcons('Ibrocoli');
+      ctx.showIcons('Ibrocoli', true);
+      ctx.showIcons('Icarrot', true);
+      ctx.showIcons('Ibacon', true);      
+      ctx.showIcons('Ichicken', true); 
+      ctx.showIcons('Icake', true); 
+      ctx.showIcons('IiceCream', true); 
     });   
 
     var icon3 = this.addButton(this,icon2.x, icon2.y+120, 'sleep', 3, function(ctx:any){
       ctx.showFundo('fundoBedroom');
-      ctx.showIcons('Isleep');
+      ctx.showIcons('Isleep', true);
     });
     
     var icon4 = this.addButton(this, icon3.x, icon3.y+120, 'affection', 3, function(ctx:any){
       ctx.showFundo('fundoPaisagem');
-      ctx.showIcons('Iaffection');
+      ctx.showIcons('Iaffection', true);
     });
 
     this.addButton(this, icon4.x, icon4.y+120, 'info', 3, function(ctx:any){
@@ -164,15 +176,15 @@ export default class UIScene extends Phaser.Scene {
     }); 
 
     var icon6 = this.addButton(this, icon5.x+10, icon5.y+90, 'game', 3, function(ctx:any){
-      ctx.showIcons('Igame');
+      ctx.showIcons('Igame', true);
     });
     
     var icon7 = this.addButton(this, icon6.x, icon6.y+120, 'bath', 3, function(ctx:any){
-      ctx.showIcons('Ibath');
+      ctx.showIcons('Ibath', true);
     });
     
     var icon8 = this.addButton(this, icon7.x+5, icon7.y+120, 'medicine', 3, function(ctx:any){
-      ctx.showIcons('Imedicine');
+      ctx.showIcons('Imedicine', true);
     });    
 
     this.addButton(this, icon8.x-15, icon8.y+140, 'back', 1.5, function(ctx:any){
