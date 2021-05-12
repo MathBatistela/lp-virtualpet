@@ -8,9 +8,7 @@ class Kitchen extends PetScene {
 
   preload() {
     this.load.image("background", "assets/backgrounds/kitchen.png");
-    this.petController.petPreload();
-    this.setTimer(1000);
-    this.scene.run("ui");
+
   }
 
   create() {
