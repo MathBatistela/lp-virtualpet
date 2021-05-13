@@ -5,11 +5,11 @@ import State from "./petStates";
 export default class PetController {
   private sprite!: Phaser.GameObjects.Sprite;
   private scene: Phaser.Scene;
-  private pet: IPet;
+  public pet: IPet;
 
   constructor(scene: Phaser.Scene, pet: IPet) {
     this.scene = scene;
-    this.pet = pet;
+    this.pet = pet;    
   }
 
   public petPreload() {
@@ -46,5 +46,7 @@ export default class PetController {
   public setAnimation(state: State){
       this.sprite.play(`pet-${state}`)
   }
+
+
 }
 

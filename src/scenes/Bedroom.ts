@@ -1,18 +1,16 @@
 import State from "../petStates";
 import PetScene from "./PetScene";
 
-class Kitchen extends PetScene {
+class Bedroom extends PetScene {
   constructor() {
-    super("kitchen");
-    console.log("con kitchen")
+    super("bedroom");
+    console.log("con bedroom")
   }
 
   preload() {
-    this.load.image("background", "assets/backgrounds/kitchen.png");
+    this.load.image("background", "assets/backgrounds/bedroom.png");
     this.petController.petPreload();
     this.setTimer(1000);
-    // this.scene.run('ui',this.petController.pet)
-
   }
 
   create() {
@@ -23,9 +21,9 @@ class Kitchen extends PetScene {
     const pet = this.petController.petCreate(width * 0.5, height * 0.6);
     pet.scale = 4;
 
-    this.petController.setAnimation(State.SICK);
+    this.petController.setAnimation(State.NORMAL);
   }
 
 }
 
-export default Kitchen;
+export default Bedroom;

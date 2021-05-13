@@ -1,23 +1,17 @@
-import Phaser, { Input, NONE } from 'phaser';
+import Phaser from 'phaser';
+import PetScene from "./PetScene";
 
 
-export default class UIScene extends Phaser.Scene {
-  fundos:any;
+export default class UIScene extends PetScene {
+  private actualScene!:string;
   icons:any;
   constructor() {
-    super('ui');
-    this.fundos = [];
+    super('ui');   
     this.icons = [];
-    
+    // this.actualScene = 'bedroom'
   }
 
   preload() {
-    //fundos
-    this.load.image("kitchen", "assets/backgrounds/kitchen.png");
-    this.load.image("bathroom", "assets/backgrounds/bathroom.png");
-    this.load.image("bedroom", "assets/backgrounds/bedroom.png");
-    this.load.image("paisagem", "assets/backgrounds/paisagem.png");
-
     //icons
     this.load.image('drink', 'assets/icons/IconDrink.png');
     this.load.image('food', 'assets/icons/IconEat.png');
@@ -43,6 +37,14 @@ export default class UIScene extends Phaser.Scene {
 
   }
 
+  // private swapScene(scene:string) {
+  //   if (scene != this.actualScene) {
+  //     this.scene.remove(this.actualScene)
+  //     this.scene.launch(scene,this.petController.pet)
+  //     this.actualScene = scene
+  //   }
+  // }
+
   addButton(ctx:any, x:any, y:any, image:any, scale:any, onClick:any){
     var icon1 = this.add.sprite(x, y, image).setInteractive().setScale(scale);
       icon1.on('pointerdown', function () {
@@ -58,13 +60,6 @@ export default class UIScene extends Phaser.Scene {
       return icon1;
   }
 
-  showFundo(nome:string){
-    for (const [key] of Object.entries(this.fundos)) {
-      this.fundos[key].setVisible(false);
-    }
-    if(nome != 'none') this.fundos[nome].setVisible(true);
-    this.showIcons('none', true);
-  }
 
   showIcons(nome:string, state:boolean){
     if(nome == 'none' && state == true) {
@@ -82,20 +77,12 @@ export default class UIScene extends Phaser.Scene {
   }
 
   create() {
-    
     this.add.rectangle(50,400,100,800,12895428);
     this.add.rectangle(950,400,100,800,12895428);
     
+
     const { width, height } = this.scale;
     
-    this.fundos['fundokitchen'] = this.add.sprite(width/2, height/2.7, 'kitchen');
-    this.fundos['fundoBathroom'] = this.add.sprite(width/2, height/2, 'bathroom');
-    this.fundos['fundoBedroom'] = this.add.sprite(width/2, height/2.7, 'bedroom');
-    this.fundos['fundoPaisagem'] = this.add.sprite(width/2, height/2.7, 'paisagem').setScale(0.42);
-    // acrescemtar todos os fundos aqui
-    
-    this.showFundo('none');
-
     this.icons['Fdrink'] = this.addButton(this, 550,530,'juice', 1, function(ctx:any){
 
     });
@@ -141,14 +128,16 @@ export default class UIScene extends Phaser.Scene {
 
 
    var icon1 = this.addButton(this, 60, 50, 'drink', 3, function(ctx:any){
-      ctx.showFundo('fundokitchen');
+      ctx.scene.remove('bedroom')
+      ctx.scene.launch('kitchen',ctx.petController.pet)
+      ctx.showIcons('none', true);
       ctx.showIcons('Fdrink', true);
       ctx.showIcons('Fdrink2', true);     
      
     });
 
     var icon2 = this.addButton(this,icon1.x, icon1.y+100, 'food',3, function(ctx:any){
-      ctx.showFundo('fundokitchen');
+      ctx.showIcons('none', true);
       ctx.showIcons('Ibrocoli', true);
       ctx.showIcons('Icarrot', true);
       ctx.showIcons('Ibacon', true);      
@@ -157,45 +146,47 @@ export default class UIScene extends Phaser.Scene {
       ctx.showIcons('IiceCream', true); 
     });   
 
-    var icon3 = this.addButton(this,icon2.x, icon2.y+120, 'sleep', 3, function(ctx:any){
-      ctx.showFundo('fundoBedroom');
+    var icon3 = this.addButton(this, icon2.x, icon2.y+120, 'sleep', 3, function(ctx:any){
+      ctx.scene.launch('bedroom',ctx.petController.pet)
+      ctx.showIcons('none', true);
       ctx.showIcons('Isleep', true);
     });
     
     var icon4 = this.addButton(this, icon3.x, icon3.y+120, 'affection', 3, function(ctx:any){
-      ctx.showFundo('fundoPaisagem');
+      ctx.showIcons('none', true);
       ctx.showIcons('Iaffection', true);
     });
 
     this.addButton(this, icon4.x, icon4.y+120, 'info', 3, function(ctx:any){
-      
+      ctx.showIcons('none', true);
     });    
 
     var icon5 = this.addButton(this, 950, 60, 'plus', 2, function(ctx:any){
-
+      ctx.showIcons('none', true);
     }); 
 
     var icon6 = this.addButton(this, icon5.x+10, icon5.y+90, 'game', 3, function(ctx:any){
+      ctx.showIcons('none', true);
       ctx.showIcons('Igame', true);
     });
     
     var icon7 = this.addButton(this, icon6.x, icon6.y+120, 'bath', 3, function(ctx:any){
+      ctx.showIcons('none', true);
       ctx.showIcons('Ibath', true);
     });
     
     var icon8 = this.addButton(this, icon7.x+5, icon7.y+120, 'medicine', 3, function(ctx:any){
+      ctx.showIcons('none', true);
       ctx.showIcons('Imedicine', true);
     });    
 
     this.addButton(this, icon8.x-15, icon8.y+140, 'back', 1.5, function(ctx:any){
-      ctx.showFundo('fundokitchen');
+      ctx.showIcons('none', true);
     });   
       
       var text = this.add.text(120, 16, 'Felicidade:', { fontSize: '20px', color: '#000' } );// colocar essa fonte Dogica Pixel
       var text2 = this.add.text(text.x, text.y+25, 'Fome:', { fontSize: '20px', color: '#000' });
       this.add.text(text.x+400, text.y, 'Energia:', { fontSize: '20px', color: '#000' });
       this.add.text(text2.x+400, text2.y, 'Saúde:', { fontSize: '20px', color: '#000' }); 
-
   }
 }
-

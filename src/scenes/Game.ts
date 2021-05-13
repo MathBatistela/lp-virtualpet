@@ -23,8 +23,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.launch('kitchen',this.pet);
-    // this.scene.launch('ui');
+    this.scene.launch('ui',this.pet)
+    // this.scene.launch('ui',this.pet)
+
   }
 }
 
