@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { IPet } from "./interfaces";
 import State from "./petStates";
+import eventsCenter from "./eventsCenter"
 
 export default class PetController {
   private sprite!: Phaser.GameObjects.Sprite;
@@ -49,14 +50,17 @@ export default class PetController {
 
   public updateHealth(amount: number){
     this.pet.health = this.pet.health + amount
+    eventsCenter.emit('update-health', this.pet.health.toFixed(1).toString())
   }
 
   public updateHunger(amount: number){
     this.pet.hunger = this.pet.hunger + amount
+    eventsCenter.emit('update-hunger', this.pet.hunger.toFixed(1).toString())
   }
 
   public updateHappiness(amount: number){
     this.pet.happiness = this.pet.happiness + amount
+    eventsCenter.emit('update-happiness', this.pet.happiness.toFixed(1).toString())
   }
 
 

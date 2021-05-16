@@ -54,7 +54,7 @@ class PetScene extends Phaser.Scene {
       this.petController.pet.state = State.DEAD;
     }
 
-    // console.log(this.petController.pet.happiness);
+    console.log(this.petController.pet.happiness);
 
     this.petController.setAnimation(
       this.petController.pet.state

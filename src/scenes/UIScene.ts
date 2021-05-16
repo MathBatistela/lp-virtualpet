@@ -1,5 +1,5 @@
 import Phaser, { Input, NONE } from 'phaser';
-
+import eventsCenter from '../eventsCenter';
 
 export default class UIScene extends Phaser.Scene {
   fundos:any;
@@ -10,6 +10,10 @@ export default class UIScene extends Phaser.Scene {
     this.icons = [];
     
   }
+
+  private healthLabel!: Phaser.GameObjects.Text;
+  private hungerLabel!: Phaser.GameObjects.Text;
+  private happinessLabel!: Phaser.GameObjects.Text;
 
   preload() {
     //fundos
@@ -41,6 +45,18 @@ export default class UIScene extends Phaser.Scene {
     this.load.image('chicken', 'assets/icons/FoodChicken1.png');
     this.load.image('iceCream', 'assets/icons/FoodIceCream1.png');
 
+  }
+
+  public updateHealthLabel(value:string){
+    this.healthLabel.text = `Saúde: ${value}`
+  }
+
+  public updateHungerLabel(value:string){
+    this.hungerLabel.text = `Fome: ${value}`
+  }
+
+  public updateHappinessLabel(value:string){
+    this.happinessLabel.text = `Felicidade: ${value}`
   }
 
   addButton(ctx:any, x:any, y:any, image:any, scale:any, onClick:any){
@@ -191,11 +207,14 @@ export default class UIScene extends Phaser.Scene {
       ctx.showFundo('fundokitchen');
     });   
       
-      var text = this.add.text(120, 16, 'Felicidade:', { fontSize: '20px', color: '#000' } );// colocar essa fonte Dogica Pixel
-      var text2 = this.add.text(text.x, text.y+25, 'Fome:', { fontSize: '20px', color: '#000' });
-      this.add.text(text.x+400, text.y, 'Energia:', { fontSize: '20px', color: '#000' });
-      this.add.text(text2.x+400, text2.y, 'Saúde:', { fontSize: '20px', color: '#000' }); 
+      this.healthLabel = this.add.text(120, 16, 'Saúde: 0', { fontSize: '20px', color: '#000' } );// colocar essa fonte Dogica Pixel
+      this.hungerLabel = this.add.text(this.healthLabel.x, this.healthLabel.y+25, 'Fome: 0', { fontSize: '20px', color: '#000' });
+      this.happinessLabel=  this.add.text(this.healthLabel.x+400, this.healthLabel.y, 'Felicidade: 0', { fontSize: '20px', color: '#000' });
 
+      eventsCenter.on('update-health', this.updateHealthLabel, this)
+      eventsCenter.on('update-hunger', this.updateHungerLabel, this)
+      eventsCenter.on('update-happiness', this.updateHappinessLabel, this)
+  
   }
 }
 
