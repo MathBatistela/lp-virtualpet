@@ -6,7 +6,7 @@ import UIScene from './scenes/UIScene';
 
 new Phaser.Game(
   Object.assign(config, {
-    //scene: [GameScene,KitchenScene,UIScene]
-    scene: [UIScene]
+    scene: [GameScene,KitchenScene,UIScene]
+    // scene: [UIScene]
   })
 );

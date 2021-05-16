@@ -1,11 +1,11 @@
 import Phaser from "phaser";
-import IPet from "./petInterface";
+import { IPet } from "./interfaces";
 import State from "./petStates";
 
 export default class PetController {
   private sprite!: Phaser.GameObjects.Sprite;
   private scene: Phaser.Scene;
-  private pet: IPet;
+  public pet: IPet;
 
   constructor(scene: Phaser.Scene, pet: IPet) {
     this.scene = scene;
@@ -43,8 +43,22 @@ export default class PetController {
     }
   }
 
-  public setAnimation(state: State){
-      this.sprite.play(`pet-${state}`)
+  public setAnimation(state: string){
+    this.sprite.play(`pet-${state}`)
   }
+
+  public updateHealth(amount: number){
+    this.pet.health = this.pet.health + amount
+  }
+
+  public updateHunger(amount: number){
+    this.pet.hunger = this.pet.hunger + amount
+  }
+
+  public updateHappiness(amount: number){
+    this.pet.happiness = this.pet.happiness + amount
+  }
+
+
 }
 

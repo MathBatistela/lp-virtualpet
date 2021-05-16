@@ -23,7 +23,7 @@ export default class UIScene extends Phaser.Scene {
     this.load.image('food', 'assets/icons/IconEat.png');
     this.load.image('sleep', 'assets/icons/IconLights.png');
     this.load.image('affection', 'assets/icons/IconPet.png');
-    this.load.image('info', 'assets/icons/Iconinfo.png');
+    this.load.image('info', 'assets/icons/IconInfo.png');
     this.load.image('plus', 'assets/icons/IconPlus.png');
     this.load.image('game', 'assets/icons/IconGame.png');
     this.load.image('bath', 'assets/icons/IconBath.png');
