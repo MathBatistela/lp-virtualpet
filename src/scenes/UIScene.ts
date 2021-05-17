@@ -7,7 +7,6 @@ import Kitchen from './Kitchen'
 
 export default class UIScene extends Phaser.Scene {
 
-  fundos:any;
   icons:any;
   private healthLabel!: Phaser.GameObjects.Text;
   private hungerLabel!: Phaser.GameObjects.Text;
@@ -42,14 +41,6 @@ export default class UIScene extends Phaser.Scene {
       return icon1;
   }
 
-  private showFundo(nome:string){
-    for (const [key] of Object.entries(this.fundos)) {
-      this.fundos[key].setVisible(false);
-    }
-    if(nome != 'none') this.fundos[nome].setVisible(true);
-    this.showIcons('none', true);
-  }
-
   private showIcons(nome:string, state:boolean){
     if(nome == 'none' && state == true) {
       for (const [key] of Object.entries(this.icons)) {
@@ -78,7 +69,6 @@ export default class UIScene extends Phaser.Scene {
 
   constructor() {
     super('ui');
-    this.fundos = [];
     this.icons = [];
     
   }
@@ -88,11 +78,6 @@ export default class UIScene extends Phaser.Scene {
   }
 
   preload() {
-    //fundos
-    this.load.image("kitchen", "assets/backgrounds/kitchen.png");
-    this.load.image("bathroom", "assets/backgrounds/bathroom.png");
-    this.load.image("bedroom", "assets/backgrounds/bedroom.png");
-    this.load.image("paisagem", "assets/backgrounds/paisagem.png");
 
     //icons
     this.load.image('drink', 'assets/icons/IconDrink.png');
@@ -127,18 +112,7 @@ export default class UIScene extends Phaser.Scene {
     this.scene.add('kitchen', Kitchen ,false);
 
     const { width, height } = this.scale;
-    
-    this.fundos['fundokitchen'] = this.add.sprite(width/2, height/2.7, 'kitchen');
-    this.fundos['fundoBathroom'] = this.add.sprite(width/2, height/2, 'bathroom');
-    this.fundos['fundoBedroom'] = this.add.sprite(width/2, height/2.7, 'bedroom');
-    this.fundos['fundoPaisagem'] = this.add.sprite(width/2, height/2.7, 'paisagem').setScale(0.42);
-
-    this.showFundo('none');
-
-    // this.scene.run(this.pet.lastScene, this.pet);
-    // const petScene = this.scene.get(this.pet.lastScene);
-    // this.scene.moveDown(this.pet.lastScene)
-    
+        
     this.actualScene = this.pet.lastScene;
     
     this.icons['Fdrink'] = this.addButton(this, 550,530,'juice', 1, function(ctx:any){
@@ -184,32 +158,22 @@ export default class UIScene extends Phaser.Scene {
     this.showIcons('none', true);
     
    var icon1 = this.addButton(this, 60, 50, 'drink', 3, function(ctx:any){
-    ctx.switchScene('kitchen');
-      
-    // ctx.showFundo('fundokitchen');
-      // ctx.showIcons('Fdrink', true);
-      // ctx.showIcons('Fdrink2', true);     
+    ctx.switchScene('kitchen'); 
      
     });
 
     var icon2 = this.addButton(this,icon1.x, icon1.y+100, 'food',3, function(ctx:any){
       ctx.switchScene('kitchen');
-      // ctx.actualScene = "kitchen"
-      // ctx.showIcons('Ibrocoli', true);
-      // ctx.showIcons('Icarrot', true);
-      // ctx.showIcons('Ibacon', true);      
-      // ctx.showIcons('Ichicken', true); 
-      // ctx.showIcons('Icake', true); 
-      // ctx.showIcons('IiceCream', true); 
+       
     });   
 
     var icon3 = this.addButton(this,icon2.x, icon2.y+120, 'sleep', 3, function(ctx:any){
       ctx.switchScene('bedroom')
-      // ctx.actualScene = "bedroom"
+    
     });
     
     var icon4 = this.addButton(this, icon3.x, icon3.y+120, 'affection', 3, function(ctx:any){
-      ctx.showFundo('fundoPaisagem');
+    
       ctx.showIcons('Iaffection', true);
     });
 
@@ -234,7 +198,7 @@ export default class UIScene extends Phaser.Scene {
     });    
 
     this.addButton(this, icon8.x-15, icon8.y+140, 'back', 1.5, function(ctx:any){
-      ctx.showFundo('fundokitchen');
+     
     });   
       
     this.healthLabel = this.add.text(120, 16, 'Saúde: 0', { fontSize: '20px', color: '#000' } );// colocar essa fonte Dogica Pixel
