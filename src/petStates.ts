@@ -4,8 +4,11 @@ enum State{
     TIRED = "tired",
     DIRTY = "dirty",
     SAD = "sad",
-    SLEEPING = "sleeping",
-    DEAD = "dead"
+    SLEEPING = "sleep",
+    DEAD = "dead",
+    NO = "no",
+    AFFECTION = "pet",
+    BATH = "bath"
 }
 
 export default State;
