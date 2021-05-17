@@ -19,6 +19,8 @@ Thumbs.db
 !.yarn/sdks
 !.yarn/versions
 yarn.lock
+yarn-error.log
+
 
 # if you are NOT using Zero-installs, then:
 # comment the following lines
