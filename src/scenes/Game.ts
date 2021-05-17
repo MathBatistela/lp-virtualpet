@@ -8,20 +8,8 @@ export default class GameScene extends Phaser.Scene {
     super('GameScene');
   }
 
-  private pet!:IPet;
-
   preload() {
-    this.pet = {
-      "userId": 9,
-      "name": "Kuak",
-      "skin": "tailed",
-      "state": State.NORMAL,
-      "health": 100,
-      "hunger": 100,
-      "happiness": 100,
-      "referenceTime": Date.now(),
-      "lastScene": "Game"
-    }  
+
   }
 
   create() {
@@ -29,10 +17,7 @@ export default class GameScene extends Phaser.Scene {
     User.getUser(9).then(data => console.log(data.user))
 
     Pet.getPet(1).then( (data) => {
-      data.vpet.state = "normal"
-      data.vpet.referenceTime = Date.now()
-      this.scene.launch('kitchen',data.vpet);
-      console.log(data.vpet)
+      this.scene.launch('ui',data.vpet);
     });
 
     

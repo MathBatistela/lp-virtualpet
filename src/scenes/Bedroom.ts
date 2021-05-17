@@ -4,11 +4,11 @@ import { Pet } from "../apiInterface"
 
 class Kitchen extends PetScene {
   constructor() {
-    super("kitchen");
+    super("bedroom");
   }
 
   preload() {
-    this.load.image("kit-background", "assets/backgrounds/kitchen.png");
+    this.load.image("background", "assets/backgrounds/bedroom.png");
     this.petController.petPreload();
     this.setTimer(1000);
   }
@@ -16,7 +16,7 @@ class Kitchen extends PetScene {
   create() {
     const { width, height } = this.scale;
 
-    this.add.image(width / 2, height / 2, "kit-background");
+    this.add.image(width / 2, height / 2, "background");
 
     const pet = this.petController.petCreate(width * 0.5, height * 0.6);
     pet.scale = 4;

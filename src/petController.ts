@@ -14,7 +14,7 @@ export default class PetController {
   }
 
   public petPreload() {
-    const states = ["normal", "sick"];
+    const states = Object.values(State);
     for (let animation of states){
       this.scene.load.spritesheet(
         `pet-${animation}`,
@@ -32,7 +32,7 @@ export default class PetController {
 
   private createAnimations() {
     const framespttr =  {start: 0, end: 3,first: 0};
-    const states = ["normal", "sick"];
+    const states = Object.values(State);
 
     for (let animation of states){
       this.sprite.anims.create({
