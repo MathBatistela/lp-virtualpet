@@ -15,10 +15,10 @@ export interface IUser {
   id: number;
   name: string;
   email: string;
-  pets?: IPet[];
+  pets: IPet[];
 }
 
 export interface IUserActions {
   message: string;
-  id?: number;
+  id: number;
 }

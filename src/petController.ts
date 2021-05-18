@@ -6,11 +6,14 @@ import eventsCenter from "./eventsCenter"
 export default class PetController {
   private sprite!: Phaser.GameObjects.Sprite;
   private scene: Phaser.Scene;
+  public animate: boolean;
   public pet: IPet;
 
   constructor(scene: Phaser.Scene, pet: IPet) {
     this.scene = scene;
     this.pet = pet;
+    this.animate = true;
+    eventsCenter.on('update-happiness', this.updateHappiness, this);
   }
 
   public petPreload() {
@@ -39,7 +42,6 @@ export default class PetController {
         key: `pet-${animation}`,
         frames: this.sprite.anims.generateFrameNumbers(`pet-${animation}`,framespttr),
         frameRate: 4,
-        repeat: -1,
       });
     }
   }
@@ -48,10 +50,18 @@ export default class PetController {
     this.sprite.play(`pet-${state}`)
   }
 
+  public setTemporaryAnimation(state:string,time?:number){
+    this.animate = false;
+    this.setAnimation(state);
+    setTimeout(()=>{
+      this.animate = true;
+    },time);
+  }
+
   public updateHealth(amount: number){
     if ( this.pet.health > 0 ){
       this.pet.health = this.pet.health + amount;
-      eventsCenter.emit('update-health', this.pet.health.toFixed(1).toString());
+      eventsCenter.emit('update-health-label', this.pet.health.toFixed(1).toString());
     }
     else {
       this.pet.hunger = 0;
@@ -61,7 +71,7 @@ export default class PetController {
   public updateHunger(amount: number){
     if ( this.pet.hunger > 0 ){
       this.pet.hunger = this.pet.hunger + amount;
-      eventsCenter.emit('update-hunger', this.pet.hunger.toFixed(1).toString());
+      eventsCenter.emit('update-hunger-label', this.pet.hunger.toFixed(1).toString());
     }
     else {
       this.pet.hunger = 0;
@@ -71,13 +81,13 @@ export default class PetController {
   public updateHappiness(amount: number){
     if ( this.pet.happiness > 0 ){
       this.pet.happiness = this.pet.happiness + amount;
-      eventsCenter.emit('update-happiness', this.pet.happiness.toFixed(1).toString());
+      eventsCenter.emit('update-happiness-label', this.pet.happiness.toFixed(1).toString());
     }
     else {
       this.pet.happiness = 0;
     }
   }
-
+  
 
 }
 

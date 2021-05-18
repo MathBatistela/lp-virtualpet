@@ -5,6 +5,8 @@ import { Pet } from '../apiInterface';
 import Bedroom from './Bedroom';
 import Kitchen from './Kitchen'
 import Outside from './Outside';
+import State from '../petStates';
+import Obj from '../petObjects';
 
 export default class UIScene extends Phaser.Scene {
 
@@ -105,7 +107,7 @@ export default class UIScene extends Phaser.Scene {
   }
 
   create() {
-    this.actualScene = "GameScene"
+    this.actualScene = "login"
 
     this.add.rectangle(50,400,100,800,12895428);
     this.add.rectangle(950,400,100,800,12895428);
@@ -176,8 +178,14 @@ export default class UIScene extends Phaser.Scene {
     });
     
     var icon4 = this.addButton(this, icon3.x, icon3.y+120, 'affection', 3, function(ctx:any){
-    
-      ctx.showIcons('Iaffection', true);
+      eventsCenter.emit('update-happiness', 0.5);
+      const anim = {
+        "animation": State.AFFECTION,
+        "duration": 2500,
+        "width": 0,
+        "height": 0
+      };
+      eventsCenter.emit('add-animation', anim);
     });
 
     this.addButton(this, icon4.x, icon4.y+120, 'info', 3, function(ctx:any){
@@ -198,7 +206,14 @@ export default class UIScene extends Phaser.Scene {
     });
     
     var icon8 = this.addButton(this, icon7.x+5, icon7.y+120, 'medicine', 3, function(ctx:any){
-      ctx.showIcons('Imedicine', true);
+      eventsCenter.emit('update-happiness', 0.5);
+      const anim = {
+        "animation": State.BATH,
+        "duration": 8000,
+        "width": 500,
+        "height": 300
+      };
+      eventsCenter.emit('add-animation', anim);
     });    
 
     this.addButton(this, icon8.x-15, icon8.y+140, 'back', 1.5, function(ctx:any){
@@ -209,13 +224,9 @@ export default class UIScene extends Phaser.Scene {
     this.hungerLabel = this.add.text(this.healthLabel.x, this.healthLabel.y+25, 'Fome: 0', { fontSize: '20px', color: '#000' });
     this.happinessLabel=  this.add.text(this.healthLabel.x+400, this.healthLabel.y, 'Felicidade: 0', { fontSize: '20px', color: '#000' });
 
-    eventsCenter.on('update-health', this.updateHealthLabel, this)
-    eventsCenter.on('update-hunger', this.updateHungerLabel, this)
-    eventsCenter.on('update-happiness', this.updateHappinessLabel, this)
-
-      
-
-    console.log(this.pet.id)
+    eventsCenter.on('update-health-label', this.updateHealthLabel, this);
+    eventsCenter.on('update-hunger-label', this.updateHungerLabel, this);
+    eventsCenter.on('update-happiness-label', this.updateHappinessLabel, this);
   
   }
 }

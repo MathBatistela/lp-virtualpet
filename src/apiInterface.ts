@@ -34,4 +34,6 @@ export const User = {
   updateUser: (user: IUser, id: number): Promise<IUserActions> =>
     requests.put(`api/user/${id}`, user),
   deletePet: (id: number): Promise<void> => requests.delete(`api/user/${id}`),
+  login: (user: {email:string, password:string}): Promise<IUserActions> =>
+    requests.post("api/login", user),
 };

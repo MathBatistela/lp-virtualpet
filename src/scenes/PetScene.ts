@@ -1,13 +1,16 @@
 import Phaser from "phaser";
 import PetController from "../petController";
+import ObjController from "../petObjectsController";
 import { IPet } from "../interfaces";
 import State from "../petStates";
+import Obj from "../petObjects";
 import { Pet } from "../apiInterface"
+import eventsCenter from "../eventsCenter";
 
 class PetScene extends Phaser.Scene {
   public petController!: PetController;
+  public objController!: ObjController;
   private triggerTimer?: Phaser.Time.TimerEvent;
-
 
   constructor(key: string) {
     super(key);
@@ -15,6 +18,7 @@ class PetScene extends Phaser.Scene {
 
   init(pet: IPet) {
     this.petController = new PetController(this, pet);
+    this.objController = new ObjController(this);
   }
 
   public setTimer(ms: number) {
@@ -24,6 +28,24 @@ class PetScene extends Phaser.Scene {
       delay: ms, // 1000 = 1 second
       loop: true,
     });
+  }
+
+  create() {
+    eventsCenter.on('align-pet-animation', (object:string) =>{
+      // this.objController.objPlayAnimation(width * 0.55,height * 0.9,object);
+      this.petController.setTemporaryAnimation(State.AFFECTION,5000);
+    }, this);
+  }
+
+  public temporaryAnimationManager(params: {animation:string; duration:number; width:number; height:number}){
+    const states = <any>Object.values(State);
+    const objs = <any>Object.values(Obj);
+    if (states.includes(params.animation)){
+      this.petController.setTemporaryAnimation(params.animation,params.duration);
+    }
+    else if (objs.includes(params.animation)){
+      this.objController.objPlayAnimation(params.width,params.height,params.animation);
+    }
   }
 
   public timerEvent(): void {
@@ -57,9 +79,12 @@ class PetScene extends Phaser.Scene {
     }
     console.log(this.petController.pet.health);
 
-    this.petController.setAnimation(
-      this.petController.pet.state
-    );
+    if (this.petController.animate){
+      this.petController.setAnimation(
+        this.petController.pet.state
+      );
+
+    }
     this.petController.pet.referenceTime = Date.now();
     Pet.updatePet(this.petController.pet,this.petController.pet.id)
   }
