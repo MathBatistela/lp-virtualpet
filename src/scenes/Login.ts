@@ -13,10 +13,10 @@ export default class Login extends Phaser.Scene {
   create() {
     const { width, height } = this.scale;
     this.add.image(width / 2, height / 2, "pic");
-    var text = this.add.text(190, 50, "Bem-vindo ao virtual-pet", {
+    var text = this.add.text(35, 50, "Bem-vindo ao virtual-pet", {
       color: "white",
       fontFamily: "Dogica Pixel",
-      fontSize: "50px ",
+      fontSize: "40px ",
     });
 
     var element = this.add.dom(width / 2, 600).createFromCache("nameform");
