@@ -21,11 +21,7 @@ class Kitchen extends PetScene {
     const pet = this.petController.petCreate(width * 0.5, height * 0.6);
     pet.scale = 4;
 
-    // Pet.getPets().then((data) => {
-    //   console.log(data)
-    // }).catch((err)=>{
-    //   console.log(err)
-    // })
+
 
   }
 

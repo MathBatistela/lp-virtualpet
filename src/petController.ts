@@ -49,18 +49,33 @@ export default class PetController {
   }
 
   public updateHealth(amount: number){
-    this.pet.health = this.pet.health + amount
-    eventsCenter.emit('update-health', this.pet.health.toFixed(1).toString())
+    if ( this.pet.health > 0 ){
+      this.pet.health = this.pet.health + amount;
+      eventsCenter.emit('update-health', this.pet.health.toFixed(1).toString());
+    }
+    else {
+      this.pet.hunger = 0;
+    }
   }
 
   public updateHunger(amount: number){
-    this.pet.hunger = this.pet.hunger + amount
-    eventsCenter.emit('update-hunger', this.pet.hunger.toFixed(1).toString())
+    if ( this.pet.hunger > 0 ){
+      this.pet.hunger = this.pet.hunger + amount;
+      eventsCenter.emit('update-hunger', this.pet.hunger.toFixed(1).toString());
+    }
+    else {
+      this.pet.hunger = 0;
+    }
   }
 
   public updateHappiness(amount: number){
-    this.pet.happiness = this.pet.happiness + amount
-    eventsCenter.emit('update-happiness', this.pet.happiness.toFixed(1).toString())
+    if ( this.pet.happiness > 0 ){
+      this.pet.happiness = this.pet.happiness + amount;
+      eventsCenter.emit('update-happiness', this.pet.happiness.toFixed(1).toString());
+    }
+    else {
+      this.pet.happiness = 0;
+    }
   }
 
 

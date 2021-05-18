@@ -4,6 +4,7 @@ import { IPet } from '../interfaces';
 import { Pet } from '../apiInterface';
 import Bedroom from './Bedroom';
 import Kitchen from './Kitchen'
+import Outside from './Outside';
 
 export default class UIScene extends Phaser.Scene {
 
@@ -59,9 +60,10 @@ export default class UIScene extends Phaser.Scene {
   public switchScene(sceneKey:string){
     if (sceneKey != this.actualScene){
       Pet.getPet(this.pet.id).then((data) => {
+        data.vpet.lastScene = sceneKey;
         const sceneToChange = this.scene.get(this.actualScene);
         sceneToChange.scene.start(sceneKey,data.vpet);
-        sceneToChange.scene.moveUp(this.scene.key);
+        sceneToChange.scene.moveAbove(sceneKey,this.scene.key);
         this.actualScene = sceneKey;
       })
     }
@@ -78,7 +80,6 @@ export default class UIScene extends Phaser.Scene {
   }
 
   preload() {
-
     //icons
     this.load.image('drink', 'assets/icons/IconDrink.png');
     this.load.image('food', 'assets/icons/IconEat.png');
@@ -104,16 +105,18 @@ export default class UIScene extends Phaser.Scene {
   }
 
   create() {
-    
+    this.actualScene = "GameScene"
+
     this.add.rectangle(50,400,100,800,12895428);
     this.add.rectangle(950,400,100,800,12895428);
 
     this.scene.add('bedroom', Bedroom,false);
     this.scene.add('kitchen', Kitchen ,false);
+    this.scene.add('outside', Outside ,false);
 
     const { width, height } = this.scale;
-        
-    this.actualScene = this.pet.lastScene;
+
+    this.switchScene(this.pet.lastScene);
     
     this.icons['Fdrink'] = this.addButton(this, 550,530,'juice', 1, function(ctx:any){
 
@@ -186,7 +189,8 @@ export default class UIScene extends Phaser.Scene {
     }); 
 
     var icon6 = this.addButton(this, icon5.x+10, icon5.y+90, 'game', 3, function(ctx:any){
-      ctx.showIcons('Igame', true);
+      ctx.switchScene('outside');
+      // ctx.showIcons('Igame', true);
     });
     
     var icon7 = this.addButton(this, icon6.x, icon6.y+120, 'bath', 3, function(ctx:any){

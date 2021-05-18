@@ -7,6 +7,9 @@ export default {
   backgroundColor: '#F4894C',
   pixelArt: true,
   zoom: 5,
+  dom: {
+    createContainer: true
+  },
   scale: {
     width: 1000,
     height: 600,
