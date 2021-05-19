@@ -30,6 +30,7 @@
     "vite": "^2.0.0-beta.65"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "axios": "^0.21.1",
+    "phaser-list-view": "^1.5.2"
   }
 }
