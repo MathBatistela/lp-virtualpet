@@ -30,27 +30,22 @@ class PetScene extends Phaser.Scene {
     });
   }
 
-  create() {
-    eventsCenter.on('align-pet-animation', (object:string) =>{
-      // this.objController.objPlayAnimation(width * 0.55,height * 0.9,object);
-      this.petController.setTemporaryAnimation(State.AFFECTION,5000);
-    }, this);
-  }
-
-  public temporaryAnimationManager(params: {animation:string; duration:number; width:number; height:number}){
+  public temporaryAnimationManager(animation:string, duration:number, width:number, height:number){
     const states = <any>Object.values(State);
     const objs = <any>Object.values(Obj);
-    if (states.includes(params.animation)){
-      this.petController.setTemporaryAnimation(params.animation,params.duration);
+    if (states.includes(animation)){
+      this.petController.setTemporaryAnimation(animation,duration);
     }
-    else if (objs.includes(params.animation)){
-      this.objController.objPlayAnimation(params.width,params.height,params.animation);
+    else if (objs.includes(animation)){
+      this.objController.objPlayAnimation(width,height,animation);
     }
   }
 
   public timerEvent(): void {
     const healthReference = 24 * 36;
     const hungerReference = 6 * 36;
+    const energyReference = 6 * 36;
+    const dirtyReference = 4 * 36;
     const happinessReference = 3 * 36;
 
     const deltaTime = (Date.now() - this.petController.pet.referenceTime) / 1000;
@@ -61,15 +56,30 @@ class PetScene extends Phaser.Scene {
     else {
       this.petController.updateHealth(-(1/healthReference)*deltaTime);
     }
-    
+
     this.petController.updateHunger(-(1/hungerReference)*deltaTime);
     this.petController.updateHappiness(-(1/happinessReference)*deltaTime);
+    this.petController.updateEnergy(-(1/energyReference)*deltaTime);
+    this.petController.updateDirty(-(1/dirtyReference)*deltaTime);
 
     if (this.petController.pet.health <= 0){
       this.petController.pet.state = State.DEAD;
     }
+    else if (this.petController.pet.state == State.SLEEPING){
+      this.petController.updateEnergy(((1/energyReference)*deltaTime)*3);
+    }
+    else if (this.petController.pet.hunger > 110 || this.petController.pet.health > 120){
+      this.petController.pet.state = State.SICK;
+      this.petController.updateHunger(-((1/hungerReference)*deltaTime)*3);
+    }
     else if (this.petController.pet.health <= 30){
       this.petController.pet.state = State.SICK;
+    }
+    else if (this.petController.pet.energy <= 30){
+      this.petController.pet.state = State.TIRED;
+    }
+    else if (this.petController.pet.dirty <= 30){
+      this.petController.pet.state = State.DIRTY;
     }
     else if (this.petController.pet.happiness <= 30){
       this.petController.pet.state = State.SAD;
@@ -77,14 +87,20 @@ class PetScene extends Phaser.Scene {
     else {
       this.petController.pet.state = State.NORMAL;
     }
-    console.log(this.petController.pet.health);
 
     if (this.petController.animate){
-      this.petController.setAnimation(
-        this.petController.pet.state
-      );
-
+      if (this.petController.forceState){
+        this.petController.setAnimation(
+          this.petController.forceState
+        );
+      }
+      else {
+        this.petController.setAnimation(
+          this.petController.pet.state
+        );
+      }
     }
+
     this.petController.pet.referenceTime = Date.now();
     Pet.updatePet(this.petController.pet,this.petController.pet.id)
   }

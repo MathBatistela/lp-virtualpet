@@ -6,8 +6,12 @@ export default class Login extends Phaser.Scene {
     super("login");
   }
   preload() {
-    this.load.html("nameform", "assets/text/loginform.html");
+    // Pet.getPet(1).then((data) => {
+    //   this.scene.start("ui", data.vpet);
+    //   console.log(data);
+    // })
     this.load.image("pic", "assets/backgrounds/login.png");
+    this.load.html("nameform", "assets/text/loginform.html");
   }
 
   create() {

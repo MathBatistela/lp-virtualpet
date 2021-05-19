@@ -21,10 +21,10 @@ class Kitchen extends PetScene {
     const { width, height } = this.scale; 
     this.add.image(width / 2, height / 2, "kit-background");
 
-    const pet = this.petController.petCreate(width * 0.5, height * 0.6);
+    const pet = this.petController.petCreate(width/2, height/2 -50);
     pet.scale = 4;
-    eventsCenter.on('add-animation',(params: {animation:string; duration:number; width:number; height:number}) => {
-      this.temporaryAnimationManager(params);
+    eventsCenter.on('add-animation',(params: {animation:string; duration:number}) => {
+      this.temporaryAnimationManager(params.animation,params.duration,pet.x+40,pet.y+150);
     });
 
 

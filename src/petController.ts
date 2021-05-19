@@ -6,6 +6,7 @@ import eventsCenter from "./eventsCenter"
 export default class PetController {
   private sprite!: Phaser.GameObjects.Sprite;
   private scene: Phaser.Scene;
+  public forceState?: string;
   public animate: boolean;
   public pet: IPet;
 
@@ -14,6 +15,11 @@ export default class PetController {
     this.pet = pet;
     this.animate = true;
     eventsCenter.on('update-happiness', this.updateHappiness, this);
+    eventsCenter.on('update-health', this.updateHealth, this);
+    eventsCenter.on('update-hunger', this.updateHunger, this);
+    eventsCenter.on('update-energy', this.updateEnergy, this);
+    eventsCenter.on('update-dirty', this.updateDirty, this);
+    eventsCenter.on('force-state', this.setForceState, this);
   }
 
   public petPreload() {
@@ -47,7 +53,16 @@ export default class PetController {
   }
 
   public setAnimation(state: string){
-    this.sprite.play(`pet-${state}`)
+    this.sprite.play(`pet-${state}`);
+  }
+
+  public setForceState(state: string){
+    if (state != this.pet.state){
+      this.forceState = state;
+    }
+    if (state == 'none'){
+      this.forceState = undefined
+    }
   }
 
   public setTemporaryAnimation(state:string,time?:number){
@@ -59,32 +74,50 @@ export default class PetController {
   }
 
   public updateHealth(amount: number){
-    if ( this.pet.health > 0 ){
-      this.pet.health = this.pet.health + amount;
-      eventsCenter.emit('update-health-label', this.pet.health.toFixed(1).toString());
-    }
-    else {
+    this.pet.health = this.pet.health + amount;
+    if ( this.pet.health <= 0 ){
       this.pet.hunger = 0;
     }
+    eventsCenter.emit('update-health-label', this.pet.health.toFixed(1).toString());
   }
 
   public updateHunger(amount: number){
-    if ( this.pet.hunger > 0 ){
-      this.pet.hunger = this.pet.hunger + amount;
-      eventsCenter.emit('update-hunger-label', this.pet.hunger.toFixed(1).toString());
-    }
-    else {
+    this.pet.hunger = this.pet.hunger + amount;
+    if ( this.pet.hunger <= 0 ){
       this.pet.hunger = 0;
     }
+    eventsCenter.emit('update-hunger-label', this.pet.hunger.toFixed(1).toString());
   }
 
   public updateHappiness(amount: number){
-    if ( this.pet.happiness > 0 ){
-      this.pet.happiness = this.pet.happiness + amount;
-      eventsCenter.emit('update-happiness-label', this.pet.happiness.toFixed(1).toString());
-    }
-    else {
+    this.pet.happiness = this.pet.happiness + amount;
+    if ( this.pet.happiness <= 0 ){
       this.pet.happiness = 0;
+    }
+    else if ( this.pet.happiness >= 100 ){
+      this.pet.happiness = 100;
+    }
+    eventsCenter.emit('update-happiness-label', this.pet.happiness.toFixed(1).toString());
+  }
+  
+  public updateEnergy(amount: number){
+    this.pet.energy = this.pet.energy + amount;
+    if ( this.pet.energy <= 0 ){
+      this.pet.energy = 0;
+    }
+    else if ( this.pet.energy >= 100 ){
+      this.pet.energy = 100;
+    }
+    eventsCenter.emit('update-energy-label', this.pet.energy.toFixed(1).toString());
+  }
+
+  public updateDirty(amount: number){
+    this.pet.dirty = this.pet.dirty + amount;
+    if ( this.pet.dirty <= 0 ){
+      this.pet.dirty = 0;
+    }
+    else if ( this.pet.dirty >= 100 ){
+      this.pet.dirty = 100;
     }
   }
   
